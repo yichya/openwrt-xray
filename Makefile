@@ -29,7 +29,7 @@ define Package/$(PKG_NAME)
 endef
 
 define Package/$(PKG_NAME)/description
-	LuCI Support for Xray (Client-side Rendered).
+	Xray-core bare bones binary and optional geoip / geosite data files
 endef
 
 define Package/$(PKG_NAME)/config
