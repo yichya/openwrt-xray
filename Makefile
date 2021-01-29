@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openwrt-xray
-PKG_VERSION:=7da97635b28bfa7296fe79bbe7cd804a684317d9
+PKG_VERSION:=1.2.3
 PKG_RELEASE:=1
 
 PKG_LICENSE:=MPLv2
@@ -9,9 +9,9 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=yichya <mail@yichya.dev>
 
 PKG_SOURCE:=Xray-core-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/XTLS/Xray-core/tar.gz/${PKG_VERSION}?
-PKG_HASH:=2f1f233112f3de11bfa119a63fe7af21d6d8e803ff6d761e3b4284a143914b42
-PKG_SOURCE_VERSION:=7da97635b28bfa7296fe79bbe7cd804a684317d9
+PKG_SOURCE_URL:=https://codeload.github.com/XTLS/Xray-core/tar.gz/v${PKG_VERSION}?
+PKG_HASH:=1deed281d2b976c0132b57194a09b62a1b978ec1b35d8329894b80f8d47befb7
+PKG_SOURCE_VERSION:=v1.2.3
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
@@ -26,6 +26,7 @@ define Package/$(PKG_NAME)
 	CATEGORY:=Extra packages
 	TITLE:=Xray-core
 	DEPENDS:=$(GO_ARCH_DEPENDS)
+	PROVIDES:=xray-core
 endef
 
 define Package/$(PKG_NAME)/description
