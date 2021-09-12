@@ -35,6 +35,10 @@ define Package/$(PKG_NAME)/config
 menu "Xray Configuration"
 	depends on PACKAGE_$(PKG_NAME)
 
+config PACKAGE_XRAY_COMPRESS_UPX
+	bool "Compress executable files with UPX"
+	default y
+
 config PACKAGE_XRAY_FETCH_VIA_PROXYCHAINS
 	bool "Fetch data files using proxychains (not recommended)"
 	default n
@@ -82,6 +86,15 @@ endef
 
 define Build/Compile
 	cd $(PKG_BUILD_DIR); $(GO_PKG_VARS) $(USE_GOPROXY) CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o $(PKG_INSTALL_DIR)/bin/xray ./main; 
+ifeq ($(CONFIG_PACKAGE_XRAY_COMPRESS_UPX),y)
+	wget -q https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz -O $(DL_DIR)/upx-3.96.tar.xz
+	mkdir -p $(DL_DIR)/upx
+	tar -Jxf "$(DL_DIR)/upx-3.96.tar.xz" -C "$(DL_DIR)/upx" --strip=1
+	mv -f $(DL_DIR)/upx/upx $(STAGING_DIR_HOST)/bin/upx
+	rm -rf $(DL_DIR)/upx/
+	chmod +x $(STAGING_DIR_HOST)/bin/upx
+	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(PKG_INSTALL_DIR)/bin/xray || true
+endif
 endef
 
 define Package/$(PKG_NAME)/install
