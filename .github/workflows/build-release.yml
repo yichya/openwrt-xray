@@ -1,9 +1,11 @@
 name: Build and Release
 
 on:
+  schedule:
+    - cron: 0 * * * *
   push:
-    tags:
-      - '*'
+    branches:
+      - "master"
   workflow_dispatch:
 
 env:
@@ -11,7 +13,42 @@ env:
   CACHE_DIR: ~/cache
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      ver: ${{ steps.check.outputs.ver }}
+      rel: ${{ steps.check.outputs.rel }}
+      hash: ${{ steps.check.outputs.hash }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check latest
+        id: check
+        run: |
+          latest=$(curl -sL https://github.com/XTLS/Xray-core/releases )
+          ver=$(echo "$latest"|grep -o 'tree/v[0-9]\+\.[0-9]\+\.[0-9]\+' |head -1 |cut -d v -f2)
+          if ! grep -q "^PKG_VERSION:=$ver" Makefile; then
+            wget https://codeload.github.com/XTLS/Xray-core/tar.gz/v$ver
+            hash=$(sha256sum v$ver |cut -d\  -f1)
+            rm -f v$ver
+            sed -i -e "/^PKG_HASH/s#=.*#=$hash#" -e "/^PKG_VERSION/s#=.*#=$ver#" -e "/^PKG_RELEASE/s#=.*#=1#" Makefile
+            #提交到master
+            sed -i '/url =/d' ./.git/config
+            git config --local user.name "actions"
+            git config --local user.email "action@github.com"
+            git add --all
+            git commit -m "v$ver"
+            git remote set-url --add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+            git fetch --unshallow origin
+            git push -f -u origin master
+          fi
+          rel=$(grep "^PKG_RELEASE:=" Makefile| cut -d\= -f2)
+          hash=$(grep "^PKG_HASH:=" Makefile| cut -d\= -f2)
+          echo "::set-output name=ver::$ver"
+          echo "::set-output name=rel::$rel"
+          echo "::set-output name=hash::$hash"
+      
   release:
+    needs: check
     name: Build for ${{ matrix.arch }}
     runs-on: ubuntu-latest
     strategy:
@@ -121,11 +158,16 @@ jobs:
     env:
       SDK_URL_PATH: ${{ matrix.sdk_url_path }}
       SDK_NAME: ${{ matrix.sdk_name }}
+      ver: ${{ needs.check.outputs.ver }}
+      rel: ${{ needs.check.outputs.rel }}
+      hash: ${{ needs.check.outputs.hash }}
       CCACHE_DIR: ~/.ccache
       CONFIG_CCACHE: y
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        
+      - run: sed -i -e "/^PKG_HASH/s#=.*#=${{ env.hash }}#" -e "/^PKG_VERSION/s#=.*#=${{ env.ver }}#" -e "/^PKG_RELEASE/s#=.*#=${{ env.rel }}#" Makefile
 
       - name: Prepare Cache Key
         id: cache_key
@@ -219,6 +261,9 @@ jobs:
       - name: Release and Upload Assets
         uses: softprops/action-gh-release@v1
         with:
+          name: v${{ env.ver }}-${{ env.rel }}
+          tag_name: v${{ env.ver }}-${{ env.rel }}
+          body: v${{ env.ver }}-${{ env.rel }}
           files: '*.ipk'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
