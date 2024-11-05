@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openwrt-xray
-PKG_VERSION:=24.10.31
+PKG_VERSION:=24.11.5
 PKG_RELEASE:=1
 
 PKG_LICENSE:=MPLv2
@@ -9,7 +9,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=yichya <mail@yichya.dev>
 PKG_SOURCE:=Xray-core-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/XTLS/Xray-core/tar.gz/v${PKG_VERSION}?
-PKG_HASH:=b61102ce87c61fa97c001cb08bb3ad794ff7184e2457bc58fe71206e53dcee83
+PKG_HASH:=4610b318778ceca55c83c803fc62064e3379aa6ed33c47499f1483576ea0b41f
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 
