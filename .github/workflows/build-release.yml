@@ -98,6 +98,9 @@ jobs:
           key: openwrt-${{ matrix.arch }}-${{ env.PACKAGE_NAME }}-${{ steps.cache_key.outputs.timestamp }}
           restore-keys: |
             openwrt-${{ matrix.arch }}-${{ env.PACKAGE_NAME }}-
+      - name: Update Dependencies
+        run: |
+          DEBIAN_FRONTEND=noninteractive sudo apt-get update
       - name: Install Dependencies
         run: |
           DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ccache gettext libncurses5-dev xsltproc
