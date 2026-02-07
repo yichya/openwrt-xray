@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openwrt-xray
-PKG_VERSION:=26.2.4
+PKG_VERSION:=26.2.6
 PKG_RELEASE:=1
 
 PKG_LICENSE:=MPLv2
@@ -9,7 +9,7 @@ PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=yichya <mail@yichya.dev>
 PKG_SOURCE:=Xray-core-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/XTLS/Xray-core/tar.gz/v${PKG_VERSION}?
-PKG_HASH:=192200a0b60232a5fd7f63edf5dfa88ecb568f9b40049ca4676b6441f8da6eac
+PKG_HASH:=a41f170a03fa25d9d39f23f344540b02336a5c893d97b1b837b9477f4b35bc7f
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 
@@ -55,7 +55,7 @@ define Build/Patch
 endef
 
 define Build/Compile
-	cd $(PKG_BUILD_DIR); $(GO_PKG_VARS) $(USE_GOPROXY) CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o $(PKG_INSTALL_DIR)/bin/xray ./main; 
+	cd $(PKG_BUILD_DIR); $(GO_PKG_VARS) $(USE_GOPROXY) CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o $(PKG_INSTALL_DIR)/bin/xray ./main;
 endef
 
 define Package/$(PKG_NAME)/install

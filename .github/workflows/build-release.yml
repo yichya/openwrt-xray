@@ -160,8 +160,13 @@ jobs:
           ln -s "${{ github.workspace }}" "package/$PACKAGE_NAME"
           ./scripts/feeds install -a
           cd -
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: 'stable'
       - name: Build Packages
         run: |
+          go version
           cd "$SDK_HOME"
           make defconfig
           make package/${PACKAGE_NAME}/{clean,compile} V=s
