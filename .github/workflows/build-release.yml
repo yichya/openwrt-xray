@@ -8,73 +8,162 @@ on:
 
 env:
   PACKAGE_NAME: xray-core
+  BIN_NAME: openwrt-xray
   CACHE_DIR: ~/cache
 
 jobs:
   release:
-    name: Build for ${{ matrix.arch }}
+    name: Build for ${{ matrix.arch }} (${{ matrix.id }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - arch: aarch64_cortex-a53
+          - id: 23.05
+            arch: aarch64_cortex-a53
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm27xx/bcm2710
             sdk_name: -sdk-23.05.5-bcm27xx-bcm2710_
-          - arch: aarch64_cortex-a72
+          - id: 23.05
+            arch: aarch64_cortex-a72
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/mvebu/cortexa72
             sdk_name: -sdk-23.05.5-mvebu-cortexa72_
-          - arch: aarch64_generic
+          - id: 23.05
+            arch: aarch64_generic
             sdk_url_path: http://downloads.openwrt.org/releases/23.05.5/targets/layerscape/armv8_64b
             sdk_name: -sdk-23.05.5-layerscape-armv8_64b_
-          - arch: arm_arm1176jzf-s_vfp
+          - id: 23.05
+            arch: arm_arm1176jzf-s_vfp
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm27xx/bcm2708
             sdk_name: -sdk-23.05.5-bcm27xx-bcm2708_
-          - arch: arm_cortex-a15_neon-vfpv4
+          - id: 23.05
+            arch: arm_cortex-a15_neon-vfpv4
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/ipq806x/generic
             sdk_name: -sdk-23.05.5-ipq806x-generic_
-          - arch: arm_cortex-a5-vfpv4
+          - id: 23.05
+            arch: arm_cortex-a5-vfpv4
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/at91/sama5
             sdk_name: -sdk-23.05.5-at91-sama5_
-          - arch: arm_cortex-a7_neon-vfpv4
+          - id: 23.05
+            arch: arm_cortex-a7_neon-vfpv4
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm27xx/bcm2709
             sdk_name: -sdk-23.05.5-bcm27xx-bcm2709_
-          - arch: arm_cortex-a8_vfpv3
+          - id: 23.05
+            arch: arm_cortex-a8_vfpv3
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/sunxi/cortexa8
             sdk_name: -sdk-23.05.5-sunxi-cortexa8_
-          - arch: arm_cortex-a9
+          - id: 23.05
+            arch: arm_cortex-a9
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm53xx/generic
             sdk_name: -sdk-23.05.5-bcm53xx-generic_
-          - arch: arm_cortex-a9_vfpv3-d16
+          - id: 23.05
+            arch: arm_cortex-a9_vfpv3-d16
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/mvebu/cortexa9
             sdk_name: -sdk-23.05.5-mvebu-cortexa9_
-          - arch: arm_mpcore
+          - id: 23.05
+            arch: arm_mpcore
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/oxnas/ox820
             sdk_name: -sdk-23.05.5-oxnas-ox820_
-          - arch: i386_pentium
+          - id: 23.05
+            arch: i386_pentium
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/x86/legacy
             sdk_name: -sdk-23.05.5-x86-legacy_
-          - arch: i386_pentium4
+          - id: 23.05
+            arch: i386_pentium4
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/x86/generic
             sdk_name: -sdk-23.05.5-x86-generic_
-          - arch: mipsel_24kc
+          - id: 23.05
+            arch: mipsel_24kc
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/ramips/mt7620
             sdk_name: -sdk-23.05.5-ramips-mt7620_
-          - arch: mipsel_74kc
+          - id: 23.05
+            arch: mipsel_74kc
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm47xx/mips74k
             sdk_name: -sdk-23.05.5-bcm47xx-mips74k_
-          - arch: mipsel_mips32
+          - id: 23.05
+            arch: mipsel_mips32
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm47xx/generic
             sdk_name: -sdk-23.05.5-bcm47xx-generic_
-          - arch: mips_24kc
+          - id: 23.05
+            arch: mips_24kc
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/ath79/generic
             sdk_name: -sdk-23.05.5-ath79-generic_
-          - arch: mips_mips32
+          - id: 23.05
+            arch: mips_mips32
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/bcm63xx/generic
             sdk_name: -sdk-23.05.5-bcm63xx-generic_
-          - arch: x86_64
+          - id: 23.05
+            arch: x86_64
             sdk_url_path: https://downloads.openwrt.org/releases/23.05.5/targets/x86/64
             sdk_name: -sdk-23.05.5-x86-64_
+
+          - id: 25.12
+            arch: aarch64_cortex-a53
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm27xx/bcm2710
+            sdk_name: -sdk-25.12.4-bcm27xx-bcm2710_
+          - id: 25.12
+            arch: aarch64_cortex-a72
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/mvebu/cortexa72
+            sdk_name: -sdk-25.12.4-mvebu-cortexa72_
+          - id: 25.12
+            arch: aarch64_generic
+            sdk_url_path: http://downloads.openwrt.org/releases/25.12.4/targets/layerscape/armv8_64b
+            sdk_name: -sdk-25.12.4-layerscape-armv8_64b_
+          - id: 25.12
+            arch: arm_arm1176jzf-s_vfp
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm27xx/bcm2708
+            sdk_name: -sdk-25.12.4-bcm27xx-bcm2708_
+          - id: 25.12
+            arch: arm_cortex-a15_neon-vfpv4
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/ipq806x/generic
+            sdk_name: -sdk-25.12.4-ipq806x-generic_
+          - id: 25.12
+            arch: arm_cortex-a5-vfpv4
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/at91/sama5
+            sdk_name: -sdk-25.12.4-at91-sama5_
+          - id: 25.12
+            arch: arm_cortex-a7_neon-vfpv4
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm27xx/bcm2709
+            sdk_name: -sdk-25.12.4-bcm27xx-bcm2709_
+          - id: 25.12
+            arch: arm_cortex-a8_vfpv3
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/sunxi/cortexa8
+            sdk_name: -sdk-25.12.4-sunxi-cortexa8_
+          - id: 25.12
+            arch: arm_cortex-a9
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm53xx/generic
+            sdk_name: -sdk-25.12.4-bcm53xx-generic_
+          - id: 25.12
+            arch: arm_cortex-a9_vfpv3-d16
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/mvebu/cortexa9
+            sdk_name: -sdk-25.12.4-mvebu-cortexa9_
+          - id: 25.12
+            arch: i386_pentium
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/x86/legacy
+            sdk_name: -sdk-25.12.4-x86-legacy_
+          - id: 25.12
+            arch: i386_pentium4
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/x86/generic
+            sdk_name: -sdk-25.12.4-x86-generic_
+          - id: 25.12
+            arch: mipsel_24kc
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/ramips/mt7620
+            sdk_name: -sdk-25.12.4-ramips-mt7620_
+          - id: 25.12
+            arch: mipsel_74kc
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm47xx/mips74k
+            sdk_name: -sdk-25.12.4-bcm47xx-mips74k_
+          - id: 25.12
+            arch: mipsel_mips32
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/bcm47xx/generic
+            sdk_name: -sdk-25.12.4-bcm47xx-generic_
+          - id: 25.12
+            arch: mips_24kc
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/ath79/generic
+            sdk_name: -sdk-25.12.4-ath79-generic_
+          - id: 25.12
+            arch: x86_64
+            sdk_url_path: https://downloads.openwrt.org/releases/25.12.4/targets/x86/64
+            sdk_name: -sdk-25.12.4-x86-64_
 
     env:
       SDK_URL_PATH: ${{ matrix.sdk_url_path }}
@@ -87,7 +176,7 @@ jobs:
 
       - name: Prepare Cache Key
         id: cache_key
-        run: echo "::set-output name=timestamp::$(date +"%s")"
+        run: echo "timestamp=$(date +%s)" >> "$GITHUB_OUTPUT"
 
       - name: Setup Cache
         uses: actions/cache@v4
@@ -95,9 +184,9 @@ jobs:
           path: |
             ${{ env.CACHE_DIR }}
             ${{ env.CCACHE_DIR }}
-          key: openwrt-${{ matrix.arch }}-${{ env.PACKAGE_NAME }}-${{ steps.cache_key.outputs.timestamp }}
+          key: openwrt-${{ matrix.arch }}-${{ matrix.id }}-${{ env.PACKAGE_NAME }}-${{ steps.cache_key.outputs.timestamp }}
           restore-keys: |
-            openwrt-${{ matrix.arch }}-${{ env.PACKAGE_NAME }}-
+            openwrt-${{ matrix.arch }}-${{ matrix.id }}-${{ env.PACKAGE_NAME }}-
       - name: Update Dependencies
         run: |
           DEBIAN_FRONTEND=noninteractive sudo apt-get update
@@ -136,7 +225,7 @@ jobs:
           fi
           cd -
           file "$CACHE_DIR_SDK/$SDK_FILE"
-          tar -Jxf "$CACHE_DIR_SDK/$SDK_FILE" -C "$SDK_HOME" --strip=1
+          tar -C "$SDK_HOME" --strip=1 -xf "$CACHE_DIR_SDK/$SDK_FILE"
           cd "$SDK_HOME"
           test -d "dl" && rm -rf "dl" || true
           test -d "feeds" && rm -rf "feeds" || true
@@ -170,16 +259,21 @@ jobs:
           cd "$SDK_HOME"
           make defconfig
           make package/${PACKAGE_NAME}/{clean,compile} V=s
-          find "$SDK_HOME/bin/" -type f -name "*.ipk" -exec ls -lh {} \;
+          find "$SDK_HOME/bin/" -type f \( -name "*.ipk" -o -name "*.apk" \) -exec ls -lh {} \;
           cd -
       - name: Copy Bin Files
         run: |
-          find "$SDK_HOME/bin/" -type f -name "*xray*.ipk" -exec cp {} "${{ github.workspace }}" \;
-          find "${{ github.workspace }}" -type f -name "*.ipk" -exec ls -lh {} \;
+          find "$SDK_HOME/bin/" -type f \( -name "${BIN_NAME}*.ipk" -o -name "${BIN_NAME}*.apk" \) | while read -r f; do
+            base="$(basename "$f")"
+            cp "$f" "${{ github.workspace }}/${base%.*}-${{ matrix.arch }}.${base##*.}"
+          done
+          find "${{ github.workspace }}" -maxdepth 1 -type f \( -name "*.ipk" -o -name "*.apk" \) -exec ls -lh {} \;
       - name: Release and Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          files: '*.ipk'
+          files: |
+            *.ipk
+            *.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
