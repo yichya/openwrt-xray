@@ -61,6 +61,8 @@ endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/xray $(1)/usr/bin/xray
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./files/xray.init $(1)/etc/init.d/xray
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
